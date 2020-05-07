@@ -1,0 +1,11 @@
+
+bin\*
+fabric-swarm\crypto-config
+fabric-swarm\config
+fabric-swarm\crypto-config.yaml
+fabric-swarm\configtx.yaml
+fabric-swarm\docker-compose.yml
+fabric-swarm\crypto-config-temp.yaml
+fabric-swarm\configtx-temp.yaml
+fabric-swarm\docker-compose-temp.yml
+

@@ -1,0 +1,68 @@
+OrdererOrgs:
+ - Name: ${ORDERER1_NAME}
+   Domain: ${ORDERER1_DOMAIN}
+   CA:
+    OrganizationalUnit: admin
+   Specs:
+    #Insert1
+    - Hostname: ${ORDERER1_HOSTNAME} 
+      CommonName: '${ORDERER1_HOSTNAME}_${ORDERER1_DOMAIN}'
+      SANS: 
+        - "localhost" 
+        - "127.0.0.1" 
+    - Hostname: ${ORDERER2_HOSTNAME} 
+      CommonName: '${ORDERER2_HOSTNAME}_${ORDERER1_DOMAIN}'
+      SANS: 
+        - "localhost" 
+        - "127.0.0.1" 
+    - Hostname: ${ORDERER3_HOSTNAME} 
+      CommonName: '${ORDERER3_HOSTNAME}_${ORDERER1_DOMAIN}'
+      SANS: 
+        - "localhost" 
+        - "127.0.0.1" 
+PeerOrgs:
+ #Insert2
+  - Name: ${PEERORG1_NAME} 
+    Domain: ${PEERORG1_DOMAIN} 
+    EnableNodeOUs: true  
+    Specs:  
+     - Hostname: ${PEERORG1_HOSTNAME1}    
+       CommonName: '${PEERORG1_HOSTNAME1}_${PEERORG1_DOMAIN}'  
+    Template:  
+     Count: 0 
+     SANS: 
+         - "localhost"
+         - "127.0.0.1" 
+    Users: 
+      Count: 1 
+  - Name: ${PEERORG2_NAME} 
+    Domain: ${PEERORG2_DOMAIN} 
+    EnableNodeOUs: true  
+    Specs:  
+     - Hostname: ${PEERORG2_HOSTNAME1}    
+       CommonName: '${PEERORG2_HOSTNAME1}_${PEERORG2_DOMAIN}'  
+    Template:  
+     Count: 0 
+     SANS: 
+         - "localhost"
+         - "127.0.0.1" 
+    Users: 
+      Count: 1 
+  - Name: ${PEERORG3_NAME} 
+    Domain: ${PEERORG3_DOMAIN} 
+    EnableNodeOUs: true  
+    Specs:  
+     - Hostname: ${PEERORG3_HOSTNAME1}    
+       CommonName: '${PEERORG3_HOSTNAME1}_${PEERORG3_DOMAIN}'  
+    Template:  
+     Count: 0 
+     SANS: 
+         - "localhost"
+         - "127.0.0.1" 
+    Users: 
+      Count: 1 
+ 
+
+
+
+

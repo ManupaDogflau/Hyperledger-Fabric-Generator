@@ -1,0 +1,22 @@
+version: "3.4"
+networks:
+  dev:
+    attachable: true
+
+services:
+#Insert1
+
+
+#Insert2
+
+
+
+#Insert3
+
+
+
+
+
+
+
+

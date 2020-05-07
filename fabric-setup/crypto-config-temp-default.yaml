@@ -1,0 +1,14 @@
+OrdererOrgs:
+ - Name: ${ORDERER1_NAME}
+   Domain: ${ORDERER1_DOMAIN}
+   CA:
+    OrganizationalUnit: admin
+   Specs:
+    #Insert1
+PeerOrgs:
+ #Insert2
+ 
+
+
+
+

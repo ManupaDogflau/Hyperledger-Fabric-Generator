@@ -1,0 +1,68 @@
+OrdererOrgs:
+ - Name: Orderer
+   Domain: Ordr_com
+   CA:
+    OrganizationalUnit: admin
+   Specs:
+    #Insert1
+    - Hostname: HostOrderer1 
+      CommonName: 'HostOrderer1_Ordr_com'
+      SANS: 
+        - "localhost" 
+        - "127.0.0.1" 
+    - Hostname: HostOrderer2 
+      CommonName: 'HostOrderer2_Ordr_com'
+      SANS: 
+        - "localhost" 
+        - "127.0.0.1" 
+    - Hostname: HostOrderer3 
+      CommonName: 'HostOrderer3_Ordr_com'
+      SANS: 
+        - "localhost" 
+        - "127.0.0.1" 
+PeerOrgs:
+ #Insert2
+  - Name: Org 
+    Domain: peer_com 
+    EnableNodeOUs: true  
+    Specs:  
+     - Hostname: HOSTA    
+       CommonName: 'HOSTA_peer_com'  
+    Template:  
+     Count: 0 
+     SANS: 
+         - "localhost"
+         - "127.0.0.1" 
+    Users: 
+      Count: 1 
+  - Name: OrgA 
+    Domain: peerA_com 
+    EnableNodeOUs: true  
+    Specs:  
+     - Hostname: HOSTA    
+       CommonName: 'HOSTA_peerA_com'  
+    Template:  
+     Count: 0 
+     SANS: 
+         - "localhost"
+         - "127.0.0.1" 
+    Users: 
+      Count: 1 
+  - Name: OrgB 
+    Domain: peerB_com 
+    EnableNodeOUs: true  
+    Specs:  
+     - Hostname: HOSTA    
+       CommonName: 'HOSTA_peerB_com'  
+    Template:  
+     Count: 0 
+     SANS: 
+         - "localhost"
+         - "127.0.0.1" 
+    Users: 
+      Count: 1 
+ 
+
+
+
+
