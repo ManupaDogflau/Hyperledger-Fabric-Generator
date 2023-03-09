@@ -1,0 +1,352 @@
+
+Organizations:
+ - &OrdererOrg
+  Name: ${ORDERER1_NAME}
+  ID: ${ORDERER1_NAME}MSP
+  MSPDir: crypto-config/ordererOrganizations/${ORDERER1_DOMAIN}/msp
+  Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('${ORDERER1_NAME}MSP.member')"
+            Writers:
+                Type: Signature
+                Rule: "OR('${ORDERER1_NAME}MSP.member')"
+            Admins:
+                Type: Signature
+                Rule:  "OR('${ORDERER1_NAME}MSP.admin')"
+#Insert1
+ - &${PEERORG1_NAME}  
+  Name: ${PEERORG1_NAME}  
+  ID: ${PEERORG1_NAME}MSP  
+  MSPDir: crypto-config/peerOrganizations/${PEERORG1_DOMAIN}/msp 
+  Policies:  
+            Readers: 
+              Type: Signature 
+              Rule: "OR('${PEERORG1_NAME}MSP.admin','${PEERORG1_NAME}MSP.peer','${PEERORG1_NAME}MSP.client')" 
+            Writers:  
+              Type: Signature 
+              Rule: "OR('${PEERORG1_NAME}MSP.admin','${PEERORG1_NAME}MSP.client')" 
+            Admins:   
+              Type: Signature 
+              Rule: "OR('${PEERORG1_NAME}MSP.admin')" 
+  AnchorPeers:   
+   - Host: ${PEERORG1_HOSTNAME1}_${PEERORG1_DOMAIN} 
+     Port: 7051 
+ - &${PEERORG2_NAME}  
+  Name: ${PEERORG2_NAME}  
+  ID: ${PEERORG2_NAME}MSP  
+  MSPDir: crypto-config/peerOrganizations/${PEERORG2_DOMAIN}/msp 
+  Policies:  
+            Readers: 
+              Type: Signature 
+              Rule: "OR('${PEERORG2_NAME}MSP.admin','${PEERORG2_NAME}MSP.peer','${PEERORG2_NAME}MSP.client')" 
+            Writers:  
+              Type: Signature 
+              Rule: "OR('${PEERORG2_NAME}MSP.admin','${PEERORG2_NAME}MSP.client')" 
+            Admins:   
+              Type: Signature 
+              Rule: "OR('${PEERORG2_NAME}MSP.admin')" 
+  AnchorPeers:   
+   - Host: ${PEERORG2_HOSTNAME1}_${PEERORG2_DOMAIN} 
+     Port: 7051 
+ - &${PEERORG3_NAME}  
+  Name: ${PEERORG3_NAME}  
+  ID: ${PEERORG3_NAME}MSP  
+  MSPDir: crypto-config/peerOrganizations/${PEERORG3_DOMAIN}/msp 
+  Policies:  
+            Readers: 
+              Type: Signature 
+              Rule: "OR('${PEERORG3_NAME}MSP.admin','${PEERORG3_NAME}MSP.peer','${PEERORG3_NAME}MSP.client')" 
+            Writers:  
+              Type: Signature 
+              Rule: "OR('${PEERORG3_NAME}MSP.admin','${PEERORG3_NAME}MSP.client')" 
+            Admins:   
+              Type: Signature 
+              Rule: "OR('${PEERORG3_NAME}MSP.admin')" 
+  AnchorPeers:   
+   - Host: ${PEERORG3_HOSTNAME1}_${PEERORG3_DOMAIN} 
+     Port: 7051 
+ - &${PEERORG4_NAME}  
+  Name: ${PEERORG4_NAME}  
+  ID: ${PEERORG4_NAME}MSP  
+  MSPDir: crypto-config/peerOrganizations/${PEERORG4_DOMAIN}/msp 
+  Policies:  
+            Readers: 
+              Type: Signature 
+              Rule: "OR('${PEERORG4_NAME}MSP.admin','${PEERORG4_NAME}MSP.peer','${PEERORG4_NAME}MSP.client')" 
+            Writers:  
+              Type: Signature 
+              Rule: "OR('${PEERORG4_NAME}MSP.admin','${PEERORG4_NAME}MSP.client')" 
+            Admins:   
+              Type: Signature 
+              Rule: "OR('${PEERORG4_NAME}MSP.admin')" 
+  AnchorPeers:   
+   - Host: ${PEERORG4_HOSTNAME1}_${PEERORG4_DOMAIN} 
+     Port: 7051 
+ 
+Capabilities:
+    Channel: &ChannelCapabilities
+        V1_4_3: true
+        # V1.3 for Channel enables the new non-backwards compatible
+        # features and fixes of fabric v1.3
+        V1_3: false
+        # V1.1 for Channel enables the new non-backwards compatible
+        # features and fixes of fabric v1.1
+        V1_1: false
+    Orderer: &OrdererCapabilities
+        V1_4_2: true
+        # V1.1 for Orderer enables the new non-backwards compatible
+        # features and fixes of fabric v1.1
+        V1_1: false
+    Application: &ApplicationCapabilities
+        V1_4_2: true
+        # V1.3 for Application enables the new non-backwards compatible
+        # features and fixes of fabric v1.3.
+        V1_3: false
+        # V1.2 for Application enables the new non-backwards compatible
+        # features and fixes of fabric v1.2 (note, this need not be set if
+        # later version capabilities are set)
+        V1_2: false
+        # V1.1 for Application enables the new non-backwards compatible
+        # features and fixes of fabric v1.1 (note, this need not be set if
+        # later version capabilities are set).
+        V1_1: false
+Application: &ApplicationDefaults
+
+    Organizations:
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+
+    Capabilities:
+        <<: *ApplicationCapabilities
+
+################################################################################
+#
+#   SECTION: Orderer
+#
+#   - This section defines the values to encode into a config transaction or
+#   genesis block for orderer related parameters
+#
+################################################################################
+Orderer: &OrdererDefaults
+
+    # Orderer Type: The orderer implementation to start
+    # Available types are "solo","kafka"  and "etcdraft"
+    OrdererType: solo
+
+    Addresses: 
+        #Insert2
+        - ${ORDERER1_HOSTNAME}_${ORDERER1_DOMAIN}:7050 
+        - ${ORDERER2_HOSTNAME}_${ORDERER1_DOMAIN}:7050 
+        - ${ORDERER3_HOSTNAME}_${ORDERER1_DOMAIN}:7050 
+       
+    # Batch Timeout: The amount of time to wait before creating a batch
+    BatchTimeout: 2s
+
+    # Batch Size: Controls the number of messages batched into a block
+    BatchSize:
+
+        # Max Message Count: The maximum number of messages to permit in a batch
+        MaxMessageCount: 10
+
+        # Absolute Max Bytes: The absolute maximum number of bytes allowed for
+        # the serialized messages in a batch.
+        AbsoluteMaxBytes: 99 MB
+
+        # Preferred Max Bytes: The preferred maximum number of bytes allowed for
+        # the serialized messages in a batch. A message larger than the preferred
+        # max bytes will result in a batch larger than preferred max bytes.
+        PreferredMaxBytes: 512 KB
+
+    Kafka:
+        # Brokers: A list of Kafka brokers to which the orderer connects
+        # NOTE: Use IP:port notation
+        Brokers:
+            - 127.0.0.1:9092
+
+    # EtcdRaft defines configuration which must be set when the "etcdraft"
+    # orderertype is chosen.
+    EtcdRaft:
+        # The set of Raft replicas for this network. For the etcd/raft-based
+        # implementation, we expect every replica to also be an OSN. Therefore,
+        # a subset of the host:port items enumerated in this list should be
+        # replicated under the Orderer.Addresses key above.
+        Consenters:
+            #Insert3
+            - Host: ${ORDERER1_HOSTNAME}_${ORDERER1_DOMAIN} 
+              Port: 7050 
+              ClientTLSCert: crypto-config/ordererOrganizations/${ORDERER1_DOMAIN}/orderers/${ORDERER1_HOSTNAME}_${ORDERER1_DOMAIN}/tls/server.crt   
+              ServerTLSCert: crypto-config/ordererOrganizations/${ORDERER1_DOMAIN}/orderers/${ORDERER1_HOSTNAME}_${ORDERER1_DOMAIN}/tls/server.crt     
+            - Host: ${ORDERER2_HOSTNAME}_${ORDERER1_DOMAIN} 
+              Port: 7050 
+              ClientTLSCert: crypto-config/ordererOrganizations/${ORDERER1_DOMAIN}/orderers/${ORDERER2_HOSTNAME}_${ORDERER1_DOMAIN}/tls/server.crt   
+              ServerTLSCert: crypto-config/ordererOrganizations/${ORDERER1_DOMAIN}/orderers/${ORDERER2_HOSTNAME}_${ORDERER1_DOMAIN}/tls/server.crt     
+            - Host: ${ORDERER3_HOSTNAME}_${ORDERER1_DOMAIN} 
+              Port: 7050 
+              ClientTLSCert: crypto-config/ordererOrganizations/${ORDERER1_DOMAIN}/orderers/${ORDERER3_HOSTNAME}_${ORDERER1_DOMAIN}/tls/server.crt   
+              ServerTLSCert: crypto-config/ordererOrganizations/${ORDERER1_DOMAIN}/orderers/${ORDERER3_HOSTNAME}_${ORDERER1_DOMAIN}/tls/server.crt     
+           
+    # Organizations is the list of orgs which are defined as participants on
+    # the orderer side of the network
+    Organizations:
+
+    # Policies defines the set of policies at this level of the config tree
+    # For Orderer policies, their canonical path is
+    #   /Channel/Orderer/<PolicyName>
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+        # BlockValidation specifies what signatures must be included in the block
+        # from the orderer for the peer to validate it.
+        BlockValidation:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+
+Channel: &ChannelDefaults
+    Policies:
+        # Who may invoke the 'Deliver' API
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        # Who may invoke the 'Broadcast' API
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        # By default, who may modify elements at this config level
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+
+    # Capabilities describes the channel level capabilities, see the
+    # dedicated Capabilities section elsewhere in this file for a full
+    # description
+    Capabilities:
+        <<: *ChannelCapabilities
+
+
+
+Profiles:
+
+  OrdererGenesis:
+        <<: *ChannelDefaults
+        Orderer:
+            <<: *OrdererDefaults
+            Organizations:
+                - *OrdererOrg
+            Capabilities:
+                <<: *OrdererCapabilities
+        Consortiums:
+            SampleConsortium:
+                Organizations:
+                    #Insert4
+                    - *${PEERORG1_NAME}     
+                    - *${PEERORG2_NAME}     
+                    - *${PEERORG3_NAME}     
+                    - *${PEERORG4_NAME}     
+                   
+  OrgChannel:
+        Consortium: SampleConsortium
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+              #Insert5
+              - *${PEERORG1_NAME}     
+              - *${PEERORG2_NAME}     
+              - *${PEERORG3_NAME}     
+              - *${PEERORG4_NAME}     
+             
+            Capabilities:
+                <<: *ApplicationCapabilities
+
+  SampleDevModeKafka:
+        <<: *ChannelDefaults
+        Capabilities:
+            <<: *ChannelCapabilities
+        Orderer:
+            <<: *OrdererDefaults
+            OrdererType: kafka
+            Kafka:
+                Brokers:
+                - kafka.example.com:9092
+
+            Organizations:
+            - *OrdererOrg
+            Capabilities:
+                <<: *OrdererCapabilities
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+            - <<: *OrdererOrg
+        Consortiums:
+            SampleConsortium:
+                Organizations:
+                #Insert6
+                - *${PEERORG1_NAME}     
+                - *${PEERORG2_NAME}     
+                - *${PEERORG3_NAME}     
+                - *${PEERORG4_NAME}     
+              
+  
+
+  SampleMultiNodeEtcdRaft:
+        <<: *ChannelDefaults
+        Capabilities:
+            <<: *ChannelCapabilities
+        Orderer:
+            <<: *OrdererDefaults
+            OrdererType: etcdraft
+            EtcdRaft:
+                Consenters:
+                #Insert7
+                - Host: ${ORDERER1_HOSTNAME}_${ORDERER1_DOMAIN} 
+                  Port: 7050 
+                  ClientTLSCert: crypto-config/ordererOrganizations/${ORDERER1_DOMAIN}/orderers/${ORDERER1_HOSTNAME}_${ORDERER1_DOMAIN}/tls/server.crt   
+                  ServerTLSCert: crypto-config/ordererOrganizations/${ORDERER1_DOMAIN}/orderers/${ORDERER1_HOSTNAME}_${ORDERER1_DOMAIN}/tls/server.crt     
+                - Host: ${ORDERER2_HOSTNAME}_${ORDERER1_DOMAIN} 
+                  Port: 7050 
+                  ClientTLSCert: crypto-config/ordererOrganizations/${ORDERER1_DOMAIN}/orderers/${ORDERER2_HOSTNAME}_${ORDERER1_DOMAIN}/tls/server.crt   
+                  ServerTLSCert: crypto-config/ordererOrganizations/${ORDERER1_DOMAIN}/orderers/${ORDERER2_HOSTNAME}_${ORDERER1_DOMAIN}/tls/server.crt     
+                - Host: ${ORDERER3_HOSTNAME}_${ORDERER1_DOMAIN} 
+                  Port: 7050 
+                  ClientTLSCert: crypto-config/ordererOrganizations/${ORDERER1_DOMAIN}/orderers/${ORDERER3_HOSTNAME}_${ORDERER1_DOMAIN}/tls/server.crt   
+                  ServerTLSCert: crypto-config/ordererOrganizations/${ORDERER1_DOMAIN}/orderers/${ORDERER3_HOSTNAME}_${ORDERER1_DOMAIN}/tls/server.crt     
+            Addresses:
+                #Insert8
+                - ${ORDERER1_HOSTNAME}_${ORDERER1_DOMAIN}:7050 
+                - ${ORDERER2_HOSTNAME}_${ORDERER1_DOMAIN}:7050 
+                - ${ORDERER3_HOSTNAME}_${ORDERER1_DOMAIN}:7050 
+
+            Organizations:
+            - *OrdererOrg
+            Capabilities:
+                <<: *OrdererCapabilities
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+            - <<: *OrdererOrg
+        Consortiums:
+            SampleConsortium:
+                Organizations:
+                #Insert6
+                - *${PEERORG1_NAME}     
+                - *${PEERORG2_NAME}     
+                - *${PEERORG3_NAME}     
+                - *${PEERORG4_NAME}     
+              
+
+
