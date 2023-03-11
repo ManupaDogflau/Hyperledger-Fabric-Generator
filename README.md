@@ -1,3 +1,11 @@
+# Notas
+
+Sobre este repositorio he montado la nueva red. Para crearla ejecutar como administrador create-network
+Los archivos de configuracion son configtx.yaml y cryto-config.yaml.
+Los archivos de docker son docker-compose-cli.yaml la principal y el resto de archivos en la carpeta docker los que extiende.
+core.yaml y orderer.yaml son los oficiales de fabric pero no he encontrado como usarlos. El resto son los autogeneradores del repositorio
+con la informacion que viene a continuacion.
+
 # Instructions
 
 1. Copy all the binaries (configtxgen & cryptogen) from Hyperledger Fabric, 

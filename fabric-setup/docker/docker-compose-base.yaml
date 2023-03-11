@@ -1,0 +1,156 @@
+
+version: '2'
+
+services:
+
+  orderer.example.com:
+
+    container_name: orderer.example.com
+    extends:
+      file: peer-base.yaml
+      service: orderer-base
+    volumes:
+      - ./orderer.example.com:/var/hyperledger/production/orderer
+      - ../channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+      - ../crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/msp:/var/hyperledger/orderer/msp
+      - ../crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/:/var/hyperledger/orderer/tls
+    ports:
+      - 7050:7050
+
+  peer0.dimitra.example.com:
+      container_name: peer0.dimitra.example.com
+      extends:
+        file: peer-base.yaml
+        service: peer-base
+
+      environment:
+      - CORE_PEER_ID=peer0.dimitra.example.com
+      - CORE_PEER_ADDRESS=peer0.dimitra.example.com:7051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.dimitra.example.com:7052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.dimitra.example.com:8051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.dimitra.example.com:7051
+      - CORE_PEER_LOCALMSPID=DimitraMSP
+      volumes:
+        - /var/run/:/host/var/run/
+        - peer0.dimitra.example.com:/var/hyperledger/production
+        - ../crypto-config/peerOrganizations/dimitra.example.com/peers/peer0.dimitra.example.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/dimitra.example.com/peers/peer0.dimitra.example.com/tls:/etc/hyperledger/fabric/tls
+      ports:
+        - 7051:7051
+
+  peer1.dimitra.example.com:
+      container_name: peer1.dimitra.example.com
+      extends:
+        file: peer-base.yaml
+        service: peer-base
+
+      environment:
+      - CORE_PEER_ID=peer1.dimitra.example.com
+      - CORE_PEER_ADDRESS=peer1.dimitra.example.com:8051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:8051
+      - CORE_PEER_CHAINCODEADDRESS=peer1.dimitra.example.com:8052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:8052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.dimitra.example.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.dimitra.example.com:8051
+      - CORE_PEER_LOCALMSPID=DimitraMSP
+      volumes:
+        - /var/run/:/host/var/run/
+        - peer1.dimitra.example.com:/var/hyperledger/production
+        - ../crypto-config/peerOrganizations/dimitra.example.com/peers/peer1.dimitra.example.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/dimitra.example.com/peers/peer1.dimitra.example.com/tls:/etc/hyperledger/fabric/tls
+      ports:
+        - 8051:8051
+
+  peer0.portesa.example.com:
+      container_name: peer0.portesa.example.com
+      extends:
+        file: peer-base.yaml
+        service: peer-base
+
+      environment:
+      - CORE_PEER_ID=peer0.portesa.example.com
+      - CORE_PEER_ADDRESS=peer0.portesa.example.com:9051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:9051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.portesa.example.com:9052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:9052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.portesa.example.com:10051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.portesa.example.com:9051
+      - CORE_PEER_LOCALMSPID=PortesaMSP
+      volumes:
+        - /var/run/:/host/var/run/
+        - peer0.portesa.example.com:/var/hyperledger/production
+        - ../crypto-config/peerOrganizations/portesa.example.com/peers/peer0.portesa.example.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/portesa.example.com/peers/peer0.portesa.example.com/tls:/etc/hyperledger/fabric/tls
+      ports:
+        - 9051:9051
+
+  peer1.portesa.example.com:
+      container_name: peer1.portesa.example.com
+      extends:
+        file: peer-base.yaml
+        service: peer-base
+
+      environment:
+      - CORE_PEER_ID=peer1.portesa.example.com
+      - CORE_PEER_ADDRESS=peer1.portesa.example.com:10051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:10051
+      - CORE_PEER_CHAINCODEADDRESS=peer1.portesa.example.com:10052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:10052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.portesa.example.com:9051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.portesa.example.com:10051
+      - CORE_PEER_LOCALMSPID=PortesaMSP
+      volumes:
+        - /var/run/:/host/var/run/
+        - peer1.portesa.example.com:/var/hyperledger/production
+        - ../crypto-config/peerOrganizations/portesa.example.com/peers/peer1.portesa.example.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/portesa.example.com/peers/peer1.portesa.example.com/tls:/etc/hyperledger/fabric/tls
+      ports:
+        - 10051:10051
+
+  peer0.stelviotech.example.com:
+      container_name: peer0.stelviotech.example.com
+      extends:
+        file: peer-base.yaml
+        service: peer-base
+
+      environment:
+      - CORE_PEER_ID=peer0.stelviotech.example.com
+      - CORE_PEER_ADDRESS=peer0.stelviotech.example.com:11051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:11051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.stelviotech.example.com:11052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:11052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.stelviotech.example.com:12051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.stelviotech.example.com:11051
+      - CORE_PEER_LOCALMSPID=StelvioTechMSP
+      volumes:
+        - /var/run/:/host/var/run/
+        - peer0.stelviotech.example.com:/var/hyperledger/production
+        - ../crypto-config/peerOrganizations/stelviotech.example.com/peers/peer0.stelviotech.example.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/stelviotech.example.com/peers/peer0.stelviotech.example.com/tls:/etc/hyperledger/fabric/tls
+      ports:
+        - 11051:11051
+
+  peer1.stelviotech.example.com:
+      container_name: peer1.stelviotech.example.com
+      extends:
+        file: peer-base.yaml
+        service: peer-base
+
+      environment:
+      - CORE_PEER_ID=peer1.stelviotech.example.com
+      - CORE_PEER_ADDRESS=peer1.stelviotech.example.com:12051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:12051
+      - CORE_PEER_CHAINCODEADDRESS=peer1.stelviotech.example.com:12052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:12052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.stelviotech.example.com:11051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.stelviotech.example.com:12051
+      - CORE_PEER_LOCALMSPID=StelvioTechMSP
+      volumes:
+        - /var/run/:/host/var/run/
+        - peer1.stelviotech.example.com:/var/hyperledger/production
+        - ../crypto-config/peerOrganizations/stelviotech.example.com/peers/peer1.stelviotech.example.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/stelviotech.example.com/peers/peer1.stelviotech.example.com/tls:/etc/hyperledger/fabric/tls
+      ports:
+        - 12051:12051
